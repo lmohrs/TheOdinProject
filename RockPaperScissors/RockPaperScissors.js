@@ -10,7 +10,7 @@ function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
-function playRound(playerSelection, computerSelection){
+function playRound(playerSelection, computerSelection, score){
     let strP = playerSelection.toLowerCase();
     let strC = computerSelection.toLowerCase();
 
@@ -21,11 +21,13 @@ function playRound(playerSelection, computerSelection){
     if ((strP === 'rock' && strC === 'scissors') ||
         (strP === 'paper' && strC === 'rock') ||
         (strP === 'scissors' && strC === 'paper')) {
-        return ['You Win! ' + strP + " beats " + strC, true];
+        score[0]++;
+        return ['You Win! ' + strP + " beats " + strC, true, score];
     } else if ((strC === 'rock' && strP === 'scissors') ||
         (strC === 'paper' && strP === 'rock') ||
         (strC === 'scissors' && strP === 'paper')) {
-        return ['You Lose! ' + strC + " beats " + strP, false];
+        score[1]++;
+        return ['You Lose! ' + strC + " beats " + strP, false, score];
     } else {
         return ['You Tie!', null];
     }
@@ -43,14 +45,63 @@ function game(){
         if (result[1] === true) playerWins++;
         else if (result[1] === false) computerWins++;
         else i--;
-
-        console.log(result[0]);
     }
 
     if (playerWins > computerWins) return "You Win! " + playerWins + " to " + computerWins;
     else return "You Lose! " + playerWins + " to " + computerWins;
 }
 
-// const playerSelection = 'ScIsSoRs';
-// const computerSelection = computerPlay();
-// console.log(playRound(playerSelection, computerSelection)[0]);
+const rock = document.querySelector('#Rock');
+const paper = document.querySelector('#Paper');
+const scissors = document.querySelector('#Scissors');
+const originalMessage = document.querySelector('#scoreMessage')
+const score = document.querySelector('#scoreMessage')
+let points = [0, 0];
+
+rock.addEventListener('click', () => {
+    alert(playRound('Rock', computerPlay(), points)[0]);
+    score.innerHTML = "The score is " + points[0] + " to " + points[1];
+    if (points[0] === 5 || points[1] === 5) {
+        if (points[0] > points[1]) {
+            alert("You Win! " + points[0] + " to " + points[1]);
+        }
+        else {
+            alert("You Lose! " + points[0] + " to " + points[1]);
+        }
+        points[0] = 0;
+        points[1] = 0;
+        score.innerHTML = originalMessage.innerHTML;
+    }
+})
+
+paper.addEventListener('click', () => {
+    alert(playRound('Paper', computerPlay(), points)[0]);
+    score.innerHTML = "The score is " + points[0] + " to " + points[1];
+    if (points[0] === 5 || points[1] === 5) {
+        if (points[0] > points[1]) {
+            alert("You Win! " + points[0] + " to " + points[1]);
+        }
+        else {
+            alert("You Lose! " + points[0] + " to " + points[1]);
+        }
+        points[0] = 0;
+        points[1] = 0;
+        score.innerHTML = originalMessage.innerHTML;
+    }
+})
+
+scissors.addEventListener('click', () => {
+    alert(playRound('Scissors', computerPlay(), points)[0]);
+    score.innerHTML = "The score is " + points[0] + " to " + points[1];
+    if (points[0] === 5 || points[1] === 5) {
+        if (points[0] > points[1]) {
+            alert("You Win! " + points[0] + " to " + points[1]);
+        }
+        else {
+            alert("You Lose! " + points[0] + " to " + points[1]);
+        }
+        points[0] = 0;
+        points[1] = 0;
+        score.innerHTML = originalMessage.innerHTML;
+    }
+})
